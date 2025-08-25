@@ -1,0 +1,31 @@
+Container_ID,Origin_Port,Destination_Port,Vessel,ETA,Status,Cost_Planned,Cost_Actual
+CONT-1000,Port of Jebel Ali,Port of Los Angeles,MV Atlantic Wind,2025-09-15,Delivered,2151.09,2746.07
+CONT-1001,Port of Singapore,Port of Los Angeles,SS Neptune,2025-09-16,In Transit,2561.69,2679.04
+CONT-1002,Port of Shanghai,Port of Mumbai,SS Neptune,2025-08-28,Cleared,3462.57,3984.9700000000003
+CONT-1003,Port of Hamburg,Port of Antwerp,MV Ocean Star,2025-09-17,In Transit,4036.07,3755.08
+CONT-1004,Port of Shanghai,Port of Durban,MV Atlantic Wind,2025-09-15,Pending Customs,4587.82,4314.67
+CONT-1005,Port of Shanghai,Port of Mumbai,MS Horizon,2025-08-27,Pending Customs,3794.76,3853.88
+CONT-1006,Port of Jebel Ali,Port of Los Angeles,MS Horizon,2025-09-12,In Transit,4602.4,4181.04
+CONT-1007,Port of Hamburg,Port of Mumbai,MV Atlantic Wind,2025-09-16,Delivered,3993.82,4677.45
+CONT-1008,Port of Jebel Ali,Port of Tokyo,SS Eastern Voyager,2025-08-26,In Transit,4564.24,5441.0199999999995
+CONT-1009,Port of Shanghai,Port of Durban,SS Eastern Voyager,2025-09-15,Delivered,4134.82,4573.79
+CONT-1010,Port of Shanghai,Port of Los Angeles,SS Eastern Voyager,2025-09-03,In Transit,3422.14,4344.84
+CONT-1011,Port of Shanghai,Port of Durban,SS Neptune,2025-08-24,Cleared,2805.75,3796.41
+CONT-1012,Port of Shanghai,Port of Antwerp,MV Ocean Star,2025-08-27,Delivered,4657.27,4939.92
+CONT-1013,Port of Shanghai,Port of Los Angeles,SS Eastern Voyager,2025-09-05,Delayed,1569.61,1465.9499999999998
+CONT-1014,Port of Hamburg,Port of Durban,SS Eastern Voyager,2025-09-11,Delivered,4827.99,5554.96
+CONT-1015,Port of Shanghai,Port of Durban,MV Ocean Star,2025-09-13,In Transit,4285.53,3949.24
+CONT-1016,Port of Singapore,Port of Tokyo,MV Atlantic Wind,2025-09-16,Pending Customs,3197.98,2959.84
+CONT-1017,Port of Singapore,Port of Durban,MS Horizon,2025-08-22,In Transit,2752.15,3707.32
+CONT-1018,Port of Rotterdam,Port of Los Angeles,MV Ocean Star,2025-09-08,In Transit,2112.85,2545.19
+CONT-1019,Port of Hamburg,Port of Mumbai,MV Ocean Star,2025-08-25,In Transit,3948.1,3739.08
+CONT-1020,Port of Rotterdam,Port of Antwerp,SS Neptune,2025-09-06,Pending Customs,2705.4,2317.26
+CONT-1021,Port of Hamburg,Port of Durban,MS Horizon,2025-09-17,In Transit,4031.85,4609.95
+CONT-1022,Port of Singapore,Port of Los Angeles,SS Neptune,2025-09-12,Pending Customs,3641.6,3308.16
+CONT-1023,Port of Rotterdam,Port of Antwerp,MS Horizon,2025-09-03,Cleared,4475.44,5398.709999999999
+CONT-1024,Port of Shanghai,Port of Antwerp,SS Neptune,2025-09-17,Pending Customs,3473.4,4199.860000000001
+CONT-1025,Port of Rotterdam,Port of Tokyo,MV Atlantic Wind,2025-09-02,Delivered,2484.04,3307.91
+CONT-1026,Port of Jebel Ali,Port of Mumbai,SS Eastern Voyager,2025-08-31,Delayed,2274.94,3122.6400000000003
+CONT-1027,Port of Hamburg,Port of Antwerp,MV Ocean Star,2025-09-12,Delayed,4742.54,5099.64
+CONT-1028,Port of Rotterdam,Port of Antwerp,SS Eastern Voyager,2025-09-11,Cleared,2514.87,3150.77
+CONT-1029,Port of Rotterdam,Port of Antwerp,SS Neptune,2025-08-25,Pending Customs,2813.26,2979.8500000000004
