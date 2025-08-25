@@ -20,39 +20,35 @@ st.markdown(
 
 # ---------- DATA ----------
 @st.cache_data
-def load_data():
-    shipments = pd.read_csv("data/shipments.csv", parse_dates=["ETA"])
-    invoices  = pd.read_csv("data/invoices.csv",  parse_dates=["Due_Date", "Payment_Date"])
-    warehouse = pd.read_csv("data/warehouse.csv", parse_dates=["Inbound_Date", "Outbound_Date"])
-    clients   = pd.read_csv("data/clients.csv",   parse_dates=["Pickup_Date"])
+def load_data_from_uploads(up_ship, up_inv, up_wh, up_cli):
+    # fall back to /data/*.csv if no upload provided
+    shipments = pd.read_csv(up_ship, parse_dates=["ETA"]) if up_ship else \
+                pd.read_csv("data/shipments.csv", parse_dates=["ETA"])
+    invoices  = pd.read_csv(up_inv,  parse_dates=["Due_Date","Payment_Date"]) if up_inv else \
+                pd.read_csv("data/invoices.csv",  parse_dates=["Due_Date","Payment_Date"])
+    warehouse = pd.read_csv(up_wh,   parse_dates=["Inbound_Date","Outbound_Date"]) if up_wh else \
+                pd.read_csv("data/warehouse.csv", parse_dates=["Inbound_Date","Outbound_Date"])
+    clients   = pd.read_csv(up_cli,  parse_dates=["Pickup_Date"]) if up_cli else \
+                pd.read_csv("data/clients.csv",   parse_dates=["Pickup_Date"])
 
-    # ----- SLA: Delivered_Date & On-Time -----
-    if "Status" in shipments.columns and "ETA" in shipments.columns:
+    # ----- SLA: Delivered_Date & On-Time (simulated) -----
+    if {"Status","ETA"}.issubset(shipments.columns):
         delivered_mask = shipments["Status"].astype(str).str.lower().eq("delivered")
         rng = np.random.default_rng(42)
         on_time_flag = rng.random(delivered_mask.sum()) < 0.75
         delays = rng.integers(1, 6, size=delivered_mask.sum())
 
-        delivered_dates = []
-        idx = 0
+        delivered_dates, idx = [], 0
         for is_delivered in delivered_mask:
             if is_delivered:
-                if on_time_flag[idx]:
-                    delivered_dates.append(shipments.loc[shipments.index[idx], "ETA"])  # on-time
-                else:
-                    delivered_dates.append(
-                        shipments.loc[shipments.index[idx], "ETA"] + pd.Timedelta(days=int(delays[idx]))
-                    )
+                base_eta = shipments.iloc[idx]["ETA"]
+                delivered_dates.append(base_eta if on_time_flag[idx] else base_eta + pd.Timedelta(days=int(delays[idx])))
                 idx += 1
             else:
                 delivered_dates.append(pd.NaT)
 
         shipments["Delivered_Date"] = pd.to_datetime(delivered_dates)
-        shipments["On_Time"] = np.where(
-            delivered_mask,
-            (shipments["Delivered_Date"] <= shipments["ETA"]),
-            np.nan
-        )
+        shipments["On_Time"] = np.where(delivered_mask, shipments["Delivered_Date"] <= shipments["ETA"], np.nan)
     else:
         shipments["Delivered_Date"] = pd.NaT
         shipments["On_Time"] = np.nan
@@ -61,7 +57,7 @@ def load_data():
     if {"Cost_Planned","Cost_Actual"}.issubset(shipments.columns):
         shipments["Cost_Variance"] = shipments["Cost_Actual"] - shipments["Cost_Planned"]
         shipments["Variance_%"] = (shipments["Cost_Variance"] / shipments["Cost_Planned"]) * 100
-        shipments["Variance_%"] = shipments["Variance_%"].round(1)
+        shipments["Variance_%"] = shipments["Variance_%"].replace([np.inf, -np.inf], np.nan).round(1)
 
     if {"Origin_Port","Destination_Port"}.issubset(shipments.columns):
         shipments["Route"] = shipments["Origin_Port"].astype(str) + " → " + shipments["Destination_Port"].astype(str)
@@ -75,7 +71,15 @@ def load_data():
     return shipments, invoices, warehouse, clients
 
 # actually load the data
-shipments, invoices, warehouse, clients = load_data()
+shipments, invoices, warehouse, clients = load_data_from_uploads(up_ship, up_inv, up_wh, up_cli)
+
+# ---------- DATA UPLOAD ----------
+with st.sidebar:
+    st.subheader("Upload your own CSVs (optional)")
+    up_ship = st.file_uploader("Shipments CSV", type="csv", key="u_ship")
+    up_inv  = st.file_uploader("Invoices CSV",  type="csv", key="u_inv")
+    up_wh   = st.file_uploader("Warehouse CSV", type="csv", key="u_wh")
+    up_cli  = st.file_uploader("Clients CSV",   type="csv", key="u_cli")
 
 # ---------- SIDEBAR (filters + role view) ----------
 with st.sidebar:
