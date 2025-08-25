@@ -18,6 +18,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# ---------- DATA UPLOAD (must be BEFORE the loader call) ----------
+with st.sidebar:
+    st.subheader("Upload your own CSVs (optional)")
+    up_ship = st.file_uploader("Shipments CSV", type="csv", key="u_ship")
+    up_inv  = st.file_uploader("Invoices CSV",  type="csv", key="u_inv")
+    up_wh   = st.file_uploader("Warehouse CSV", type="csv", key="u_wh")
+    up_cli  = st.file_uploader("Clients CSV",   type="csv", key="u_cli")
+
 # ---------- DATA ----------
 @st.cache_data
 def load_data_from_uploads(up_ship, up_inv, up_wh, up_cli):
@@ -70,16 +78,8 @@ def load_data_from_uploads(up_ship, up_inv, up_wh, up_cli):
 
     return shipments, invoices, warehouse, clients
 
-# actually load the data
+# actually load the data (now that up_* vars exist)
 shipments, invoices, warehouse, clients = load_data_from_uploads(up_ship, up_inv, up_wh, up_cli)
-
-# ---------- DATA UPLOAD ----------
-with st.sidebar:
-    st.subheader("Upload your own CSVs (optional)")
-    up_ship = st.file_uploader("Shipments CSV", type="csv", key="u_ship")
-    up_inv  = st.file_uploader("Invoices CSV",  type="csv", key="u_inv")
-    up_wh   = st.file_uploader("Warehouse CSV", type="csv", key="u_wh")
-    up_cli  = st.file_uploader("Clients CSV",   type="csv", key="u_cli")
 
 # ---------- SIDEBAR (filters + role view) ----------
 with st.sidebar:
@@ -88,9 +88,7 @@ with st.sidebar:
     # role-based view (just used for guidance text later)
     role = st.selectbox("View as", ["All", "Logistics", "Finance", "Service"])
 
-    # ---- safe helpers ----
-    def col_safe(df, name):
-        return name in df.columns
+    def col_safe(df, name): return name in df.columns
 
     # ---- PORT FILTERS ----
     if col_safe(shipments, "Origin_Port") and col_safe(shipments, "Destination_Port"):
@@ -123,32 +121,22 @@ with st.sidebar:
     else:
         min_eta = max_eta = pd.Timestamp.today()
 
-    eta_range = st.date_input(
-        "ETA window",
-        value=(min_eta.date(), max_eta.date()),
-        key="eta_window"
-    )
+    eta_range = st.date_input("ETA window", value=(min_eta.date(), max_eta.date()), key="eta_window")
 
     # ---- APPLY FILTERS ----
     f = shipments.copy()
-
-    # Only filter if columns exist
     if len(sel_origin) and col_safe(f, "Origin_Port"):
         f = f[f["Origin_Port"].astype(str).isin(sel_origin)]
-
     if len(sel_dest) and col_safe(f, "Destination_Port"):
         f = f[f["Destination_Port"].astype(str).isin(sel_dest)]
-
     if len(sel_status) and col_safe(f, "Status"):
         f = f[f["Status"].astype(str).isin(sel_status)]
 
-    # date tuple guard
     if isinstance(eta_range, (list, tuple)) and len(eta_range) == 2 and col_safe(f, "ETA"):
         start = pd.Timestamp(eta_range[0])
         end   = pd.Timestamp(eta_range[1]) + pd.Timedelta(days=1)  # inclusive end
         f = f[(f["ETA"] >= start) & (f["ETA"] < end)]
 
-    # ---- ACTIONS ----
     st.divider()
     st.download_button(
         "Download filtered shipments (CSV)",
@@ -163,7 +151,7 @@ with st.sidebar:
         st.session_state.pop("status_filter", None)
         st.session_state.pop("eta_window", None)
         st.rerun()
-
+        
 # ---------- KPI STRIP ----------
 def kpi_row(df_s, df_i, df_w):
     col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
