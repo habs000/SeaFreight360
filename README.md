@@ -1,45 +1,45 @@
-# 🌊 SeaFreight360 – Logistics Dashboard
+# SeaFreight360 – Logistics Dashboard
 
 SeaFreight360 is a data driven logistics dashboard built with **Streamlit**, **Pandas**, and **Plotly**.  
 It brings together shipments, invoices, warehouse flows, and client deliveries into one clear view.  
 
 ---
 
-## 🚀 Live Demo
+## ive Demo
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://YOUR-APP-URL.streamlit.app)  
 
-👉 Try it here: **https://YOUR-APP-URL.streamlit.app**
+Try it here: **https://seafreight360-4sqnzhugt66zvsxgpbupnj.streamlit.app/**
 
 ---
 
-## ✨ Features
+## Features
 
-### 📦 Shipment Tracking
+### Shipment Tracking
 - Filters by origin, destination, status, and ETA window  
 - SLA calculation for on time delivery  
 - Planned vs Actual cost with variance by route  
 - Alerts for cost overruns and ETA at risk shipments  
 
-### 💰 Finance and Invoices
+### Finance and Invoices
 - Payment status breakdown  
 - Outstanding and overdue invoices  
 - KPI strip with Paid % and Outstanding value  
 - Export to CSV for quick follow up  
 
-### 🏭 Warehouse
+### Warehouse
 - Inbound trend over time  
 - Current inventory on hand  
 - Quantity by location  
 
-### 👥 Clients
+### Clients
 - Delivery status mix  
 - Upcoming pickups (≤ 7 days)  
 - Export client data for quick update  
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - Python 3.10+  
 - Streamlit  
@@ -48,7 +48,7 @@ It brings together shipments, invoices, warehouse flows, and client deliveries i
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 SeaFreight360/
 ├── app.py
@@ -65,7 +65,7 @@ SeaFreight360/
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Shipments Tab  
 ![Shipments](Screenshots/SHIPMENTS.png)
